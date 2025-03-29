@@ -1,3 +1,35 @@
+# Employee Management System
+
+A React-based application for managing employee information with user authentication and CRUD operations.
+
+## Features
+
+- User authentication (login/logout)
+- View employee list with pagination
+- Add/edit employee details
+- Delete employees
+- Search functionality
+- Responsive design
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- npm (v8 or higher) or yarn
+- Git (optional)
+
+## Hosted URL
+
+- URL Link - https://user-reqresdata-otqj4d5rh-hemanth-gowda-s-ps-projects.vercel.app/home
+- For testing purpose - email - eve.holt@reqres.in
+                        Password - cityslicka
+
+## Installation
+
+1. Clone the repository:
+```bash
+git https://github.com/Hemu-77/user_reqresdata.git
+cd user_reqresdata
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
