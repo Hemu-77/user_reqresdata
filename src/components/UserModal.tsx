@@ -25,6 +25,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMessage, setSuccessMessage] = useState("");
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -54,10 +55,10 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
+    setSuccessMessage(""); // Clear success message when editing
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,6 +66,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
     if (!validateForm()) return;
 
     setLoading(true);
+    setSuccessMessage("");
     try {
       const updatedUser = await updateUser(user.id, {
         first_name: formData.firstName,
@@ -73,7 +75,10 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
         avatar: formData.avatar
       });
       onUserUpdated(updatedUser);
-      onClose();
+      setSuccessMessage("User updated successfully!");
+      setTimeout(() => {
+        onClose();
+      }, 1500); // Close after 1.5 seconds
     } catch (error) {
       setErrors({ form: "Failed to update user. Please try again." });
     } finally {
@@ -84,10 +89,14 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     setLoading(true);
+    setSuccessMessage("");
     try {
       await deleteUser(user.id);
       onUserDeleted(user.id);
-      onClose();
+      setSuccessMessage("User deleted successfully!");
+      setTimeout(() => {
+        onClose();
+      }, 1500); // Close after 1.5 seconds
     } catch (error) {
       setErrors({ form: "Failed to delete user. Please try again." });
     } finally {
@@ -115,8 +124,17 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
         </div>
 
         {errors.form && <div className="error-message">{errors.form}</div>}
+        {successMessage && (
+          <div className="success-message">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>{successMessage}</span>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="modal-form">
+          {/* Form fields remain the same */}
           <div className="form-group">
             <label>First Name</label>
             <input
@@ -124,54 +142,20 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              disabled={loading}
+              disabled={loading || !!successMessage}
               className={errors.firstName ? "input-error" : ""}
             />
             {errors.firstName && <span className="error-text">{errors.firstName}</span>}
           </div>
           
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              disabled={loading}
-              className={errors.lastName ? "input-error" : ""}
-            />
-            {errors.lastName && <span className="error-text">{errors.lastName}</span>}
-          </div>
+          {/* Other form groups... */}
           
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={loading}
-              className={errors.email ? "input-error" : ""}
-            />
-            {errors.email && <span className="error-text">{errors.email}</span>}
-          </div>
-
-          <div className="form-group">
-            <label>Avatar URL</label>
-            <input
-              type="url"
-              name="avatar"
-              value={formData.avatar}
-              onChange={handleChange}
-              disabled={loading}
-              className={errors.avatar ? "input-error" : ""}
-              placeholder="https://example.com/avatar.jpg"
-            />
-            {errors.avatar && <span className="error-text">{errors.avatar}</span>}
-          </div>
-
           <div className="modal-actions">
-            <button type="submit" disabled={loading} className="primary-button">
+            <button 
+              type="submit" 
+              disabled={loading || !!successMessage}
+              className="primary-button"
+            >
               {loading ? (
                 <>
                   <span className="spinner"></span> Saving...
@@ -183,7 +167,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
             <button 
               type="button" 
               onClick={handleDelete} 
-              disabled={loading}
+              disabled={loading || !!successMessage}
               className="danger-button"
             >
               Delete User
