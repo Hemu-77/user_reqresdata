@@ -1,0 +1,128 @@
+/* Pagination Container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+  
+  .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  /* Page Buttons */
+  .pagination-pages {
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  .pagination-page {
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    color: #4a5568;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pagination-page:hover:not(.active) {
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+    color: #2d3748;
+  }
+  
+  .pagination-page.active {
+    background-color: #4299e1;
+    border-color: #4299e1;
+    color: white;
+    font-weight: 600;
+  }
+  
+  /* Arrow Buttons */
+  .pagination-arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pagination-arrow:hover:not(:disabled) {
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+    color: #2d3748;
+  }
+  
+  .pagination-arrow:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .arrow-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+  }
+  
+  /* Dots */
+  .pagination-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    color: #718096;
+    font-size: 1rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 640px) {
+    .pagination-nav {
+      gap: 0.25rem;
+    }
+    
+    .pagination-page {
+      min-width: 2rem;
+      height: 2rem;
+      font-size: 0.8rem;
+    }
+    
+    .pagination-arrow {
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    .arrow-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pagination-page {
+      min-width: 1.75rem;
+      height: 1.75rem;
+      padding: 0 0.25rem;
+    }
+    
+    .pagination-arrow {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
