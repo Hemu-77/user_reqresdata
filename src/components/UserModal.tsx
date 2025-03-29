@@ -58,7 +58,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
-    setSuccessMessage(""); // Clear success message when editing
+    setSuccessMessage("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +78,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
       setSuccessMessage("User updated successfully!");
       setTimeout(() => {
         onClose();
-      }, 1500); // Close after 1.5 seconds
+      }, 1500);
     } catch (error) {
       setErrors({ form: "Failed to update user. Please try again." });
     } finally {
@@ -96,7 +96,7 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
       setSuccessMessage("User deleted successfully!");
       setTimeout(() => {
         onClose();
-      }, 1500); // Close after 1.5 seconds
+      }, 1500);
     } catch (error) {
       setErrors({ form: "Failed to delete user. Please try again." });
     } finally {
@@ -134,7 +134,6 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
         )}
 
         <form onSubmit={handleSubmit} className="modal-form">
-          {/* Form fields remain the same */}
           <div className="form-group">
             <label>First Name</label>
             <input
@@ -148,8 +147,46 @@ export default function UserModal({ user, onClose, onUserUpdated, onUserDeleted 
             {errors.firstName && <span className="error-text">{errors.firstName}</span>}
           </div>
           
-          {/* Other form groups... */}
+          <div className="form-group">
+            <label>Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              disabled={loading || !!successMessage}
+              className={errors.lastName ? "input-error" : ""}
+            />
+            {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+          </div>
           
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={loading || !!successMessage}
+              className={errors.email ? "input-error" : ""}
+            />
+            {errors.email && <span className="error-text">{errors.email}</span>}
+          </div>
+
+          <div className="form-group">
+            <label>Avatar URL</label>
+            <input
+              type="url"
+              name="avatar"
+              value={formData.avatar}
+              onChange={handleChange}
+              disabled={loading || !!successMessage}
+              className={errors.avatar ? "input-error" : ""}
+              placeholder="https://example.com/avatar.jpg"
+            />
+            {errors.avatar && <span className="error-text">{errors.avatar}</span>}
+          </div>
+
           <div className="modal-actions">
             <button 
               type="submit" 
